@@ -10,7 +10,6 @@ class Lession extends Model
     use HasFactory;
     protected $fillable = [
         'name',
-        'description',
         'topic_id'
     ];
     public function topic()

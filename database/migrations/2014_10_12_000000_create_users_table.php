@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('password');
             $table->dateTime('date_of_birth')->nullable();
             $table->foreignId('education_type_id')->nullable()->constrained();
-            $table->foreign('education_type_id')->references('id')->on('education_types');
             $table->rememberToken();
             $table->timestamps();
         });

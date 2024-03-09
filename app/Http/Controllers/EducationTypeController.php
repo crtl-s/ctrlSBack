@@ -59,7 +59,7 @@ class EducationTypeController extends Controller
                 return response()->json($validator->errors(), 400);
             }
             $educationType = EducationType::findOrFail($id);
-            $educationType->upadate([
+            $educationType->update([
                 'name' => $request->name,
                 'description' => $request->description,
             ]);

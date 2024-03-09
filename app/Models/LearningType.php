@@ -16,4 +16,8 @@ class LearningType extends Model
     {
         return $this->hasMany(User::class);
     }
+    public function learningTypeUsers()
+    {
+        return $this->hasMany(LearningTypeUser::class);
+    }
 }

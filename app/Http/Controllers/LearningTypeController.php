@@ -59,7 +59,7 @@ class LearningTypeController extends Controller
                 return response()->json($validator->errors(), 400);
             }
             $learningType = LearningType::findOrFail($id);
-            $learningType->upadate([
+            $learningType->update([
                 'name' => $request->name,
                 'description' => $request->description,
             ]);

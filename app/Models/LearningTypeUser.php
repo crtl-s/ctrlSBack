@@ -11,7 +11,15 @@ class LearningTypeUser extends Model
 
     protected $fillable = [
         'user_id',
-        'education_type_id'
+        'learning_type_id'
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    public function learningType()
+    {
+        return $this->belongsTo(LearningType::class);
+    }
 }

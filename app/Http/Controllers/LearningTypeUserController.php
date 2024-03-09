@@ -24,6 +24,7 @@ class LearningTypeUserController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'learning_type_id' => 'required|exists:learning_types,id',
+
                 'user_id' => 'required|exists:users,id',
             ]);
             if ($validator->fails()) {
