@@ -3,16 +3,51 @@
 namespace App\Http\Controllers;
 
 use App\Models\LessionUser;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class LessionUserController extends Controller
 {
     //
     public function index(){
+        if(!Auth::user()){
+            return response()->json('Unauthorized', 401);
+        }
         try{
             $lession_users = LessionUser::with('lession')->with('user')->get();
             return response()->json($lession_users, 200);
+
+        }catch (\Exception $e){
+            return response()->json($e->getMessage());
+
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return JsonResponse
+     */
+    public function setScore(Request $request, $id){
+        try
+        {
+            $lession_user = LessionUser::findOrFail($id);
+            $request->validate([
+                'number_of_correct_answers' => 'required|numeric',
+                'number_of_all_answers'=> 'required|numeric',
+            ]);
+            if($lession_user->score==null ){
+                $lession_user->update([
+                    'score' => ($request->number_of_correct_answers / $request->number_of_all_answers) * 100,
+                ]);
+            }else{
+                $lession_user->update([
+                    'score' => ($lession_user->score + ($request->number_of_correct_answers / $request->number_of_all_answers) * 100)/2,
+                ]);
+            }
+            return response()->json($lession_user, 200);
 
         }catch (\Exception $e){
             return response()->json($e->getMessage());

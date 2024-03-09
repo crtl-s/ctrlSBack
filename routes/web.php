@@ -78,6 +78,8 @@ Route::controller(LessionUserController::class)->group(function (){
     Route::get('/lessionUsers/{id}', 'show');
     Route::put('/lessionUsers/{id}', 'update');
     Route::delete('/lessionUsers/{id}', 'destroy');
+    Route::get('/lessionUsers/setScore/{id}', 'setScore');
+
 });
 
 Route::controller(TopicController::class)->group(function (){
