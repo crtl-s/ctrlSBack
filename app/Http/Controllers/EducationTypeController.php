@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\EducationType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class EducationTypeController extends Controller
 {
