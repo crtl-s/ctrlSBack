@@ -59,9 +59,10 @@ class EducationTypeController extends Controller
                 return response()->json($validator->errors(), 400);
             }
             $educationType = EducationType::findOrFail($id);
-            $educationType->name = $request->name;
-            $educationType->description = $request->description;
-            $educationType->save();
+            $educationType->upadate([
+                'name' => $request->name,
+                'description' => $request->description,
+            ]);
             return response()->json($educationType, 200);
         } catch (\Exception $e) {
             return response()->json($e->getMessage());

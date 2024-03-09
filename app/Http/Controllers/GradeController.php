@@ -59,9 +59,10 @@ class GradeController extends Controller
                 return response()->json($validator->errors(), 400);
             }
             $grade = Grade::findOrFail($id);
-            $grade->name = $request->name;
-            $grade->description = $request->description;
-            $grade->save();
+            $grade->upate([
+                'name' => $request->name,
+                'description' => $request->description,
+            ]);
             return response()->json($grade, 200);
         } catch (\Exception $e) {
             return response()->json($e->getMessage());

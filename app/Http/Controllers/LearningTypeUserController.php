@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\LearningTypeUser;
+use http\Client\Curl\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -11,7 +12,7 @@ class LearningTypeUserController extends Controller
     public function index()
     {
         try {
-            $learningTypeUsers = LearningTypeUser::all();
+            $learningTypeUsers = LearningTypeUser::with('learningType')->with('user')->get();
             return response()->json($learningTypeUsers, 200);
         } catch (\Exception $e) {
             return response()->json($e->getMessage());
@@ -59,9 +60,11 @@ class LearningTypeUserController extends Controller
                 return response()->json($validator->errors(), 400);
             }
             $learningTypeUser = LearningTypeUser::findOrFail($id);
-            $learningTypeUser->learning_type_id = $request->learning_type_id;
-            $learningTypeUser->user_id = $request->user_id;
-            $learningTypeUser->save();
+            $learningTypeUser -> update([
+                'learning_type_id' => $request->learning_type_id,
+                'user_id' => $request->user_id,
+            ]);
+
             return response()->json($learningTypeUser, 200);
         } catch (\Exception $e) {
             return response()->json($e->getMessage());
