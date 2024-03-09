@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('lessions', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->foreignId('topic_id')->constrained();
             $table->timestamps();
+
         });
     }
 
@@ -23,5 +26,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('lessions');
+
     }
 };
