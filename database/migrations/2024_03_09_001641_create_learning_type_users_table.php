@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('learning_type_users', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('learning_type_id');
+            $table->foreignId('user_id');
+            $table->foreign('learning_type_id')->references('id')->on('learning_types');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

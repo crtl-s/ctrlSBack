@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('topic_users', function (Blueprint $table) {
             $table->id();
+            $table->integer('score')->nullable();
+            $table->foreignId('topic_id');
+            $table->foreignId('user_id');
+            $table->foreign('topic_id')->references('id')->on('topics');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

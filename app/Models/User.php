@@ -21,7 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-
+        'date_of_birth',
+        'education_type_id',
     ];
 
     /**
@@ -43,4 +44,17 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function educationType()
+    {
+        return $this->belongsTo(EducationType::class);
+    }
+    public function learningType()
+    {
+        return $this->hasMany(LearningTypeUser::class);
+    }
+    public function topics()
+    {
+        return $this->hasMany(Topic::class);
+    }
 }
