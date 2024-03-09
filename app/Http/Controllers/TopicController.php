@@ -4,12 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Topic;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class TopicController extends Controller
 {
     //
     public function index(){
+        if (!Auth::user()){
+            return response()->json('Unauthorized', 401);
+        }
         try{
             $topics = Topic::with('area')->get();
             return response()->json($topics, 200);
@@ -20,6 +24,9 @@ class TopicController extends Controller
         }
     }
     public function store(Request $request){
+        if (!Auth::user()){
+            return response()->json('Unauthorized', 401);
+        }
         try
         {
             $validator = Validator::make($request->all(),[
@@ -40,6 +47,9 @@ class TopicController extends Controller
         }
     }
     public function show($id){
+        if (!Auth::user()){
+            return response()->json('Unauthorized', 401);
+        }
         try
         {
             $topic = Topic::findOrFail($id);
@@ -50,6 +60,9 @@ class TopicController extends Controller
         }
     }
     public function update(Request $request, $id){
+        if (!Auth::user()){
+            return response()->json('Unauthorized', 401);
+        }
         try
         {
             $validator = Validator::make($request->all(),[
@@ -72,6 +85,9 @@ class TopicController extends Controller
     }
 
     public function destroy($id){
+        if (!Auth::user()){
+            return response()->json('Unauthorized', 401);
+        }
         try
         {
             $topic = Topic::findOrFail($id);

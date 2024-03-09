@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Lession;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class LessionController extends Controller
@@ -11,6 +12,9 @@ class LessionController extends Controller
     //
     public function index()
     {
+        if (!Auth::user()) {
+            return response()->json('Unauthorized', 401);
+        }
         try {
             $lessions = Lession::with('topic')->get();
             return response()->json($lessions, 200);
@@ -22,6 +26,9 @@ class LessionController extends Controller
 
     public function store(Request $request)
     {
+        if (!Auth::user()) {
+            return response()->json('Unauthorized', 401);
+        }
         try {
             $validator = Validator::make($request->all(), [
                 'name' => 'required|unique:lessions|max:255',
@@ -43,6 +50,9 @@ class LessionController extends Controller
 
     public function show($id)
     {
+        if (!Auth::user()) {
+            return response()->json('Unauthorized', 401);
+        }
         try {
             $lession = Lession::with('topic')->findOrFail($id);
             return response()->json($lession);
@@ -54,6 +64,9 @@ class LessionController extends Controller
 
     public function update(Request $request, $id)
     {
+        if (!Auth::user()) {
+            return response()->json('Unauthorized', 401);
+        }
         try {
             $validator = Validator::make($request->all(), [
                 'name' => 'required|max:255|unique:lessions,name,' . $id,
@@ -76,6 +89,9 @@ class LessionController extends Controller
 
     public function destroy($id)
     {
+        if (!Auth::user()) {
+            return response()->json('Unauthorized', 401);
+        }
         try {
             $lession = Lession::findOrFail($id);
             $lession->delete();
