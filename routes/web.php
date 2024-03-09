@@ -32,6 +32,14 @@ Route::controller(EducationTypeController::class)->group(function (){
     Route::delete('/educationType/{id}', 'destroy');
 });
 
+Route::controller(\App\Http\Controllers\AreaController::class)->group(function (){
+    Route::get('/areas', 'index');
+    Route::post('/areas', 'store');
+    Route::get('/areas/{id}', 'show');
+    Route::put('/areas/{id}', 'update');
+    Route::delete('/areas/{id}', 'destroy');
+});
+
 Route::controller(GradeController::class)->group(function (){
     Route::get('/grades', 'index');
     Route::post('/grades', 'store');

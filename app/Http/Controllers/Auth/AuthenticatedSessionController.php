@@ -29,6 +29,17 @@ class AuthenticatedSessionController extends Controller
             return response()->json(['error' => 'Unauthenticated'], 401);
         }
     }
+    public function isAuth(){
+        try {
+            if (Auth::check()) {
+                return response()->json(['message' => 'Authenticated', 'user'=>Auth::user()], 200);
+            }else{
+                return response()->json(['message' => 'Unauthenticated'], 401);
+            }
+        }catch (\Exception $e) {
+            return response()->json(['error' => 'Unauthenticated'], 401);
+        }
+    }
 
     /**
      * Destroy an authenticated session.

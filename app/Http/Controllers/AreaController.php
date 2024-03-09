@@ -2,85 +2,97 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Topic;
+use App\Models\Area;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class TopicController extends Controller
+class AreaController extends Controller
 {
     //
-    public function index(){
+  public function index(){
         try{
-            $topics = Topic::with('area')->get();
-            return response()->json($topics, 200);
+            $areas = Area::all();
+            return response()->json($areas, 200);
 
         }catch (\Exception $e){
             return response()->json($e->getMessage());
 
         }
     }
+
+    //STORE
     public function store(Request $request){
         try
         {
-            $validator = Validator::make($request->all(),[
-                'name' => 'required|unique:topics|max:255',
-                'area_id' => 'required|exists:areas,id',
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|unique:areas|max:255',
+                'description' => 'max:255',
             ]);
-            if($validator->fails()){
+            if ($validator->fails()) {
                 return response()->json($validator->errors(), 400);
             }
-            $topic = Topic::create([
+            $area = Area::create([
                 'name' => $request->name,
-                'area_id' => $request->area_id,
+                'description' => $request->description,
             ]);
-            return response()->json($topic, 201);
+            return response()->json($area, 201);
         }catch (\Exception $e){
             return response()->json($e->getMessage());
 
         }
+
     }
+
+    //SHOW
     public function show($id){
         try
         {
-            $topic = Topic::findOrFail($id);
-            return response()->json($topic);
+            $area = Area::findOrFail($id);
+            return response()->json($area);
         }catch (\Exception $e){
             return response()->json($e->getMessage());
 
         }
+
     }
+
+    //UPDATE
     public function update(Request $request, $id){
         try
         {
-            $validator = Validator::make($request->all(),[
-                'name' => 'required|max:255|unique:topics,name,' . $id,
-                'area_id' => 'required|exists:areas,id',
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|max:255|unique:areas,name,' . $id,
+                'description' => 'max:255',
             ]);
-            if($validator->fails()){
+            if ($validator->fails()) {
                 return response()->json($validator->errors(), 400);
             }
-            $topic = Topic::findOrFail($id);
-            $topic->update([
+            $area = Area::findOrFail($id);
+            $area->update([
                 'name' => $request->name,
-                'area_id' => $request->area_id,
+                'description' => $request->description,
             ]);
-            return response()->json($topic, 200);
+            return response()->json($area, 200);
         }catch (\Exception $e){
             return response()->json($e->getMessage());
 
         }
+
     }
 
+    //DELETE
     public function destroy($id){
         try
         {
-            $topic = Topic::findOrFail($id);
-            $topic->delete();
-            return response()->json('Topic deleted successfully', 200);
+            $area = Area::findOrFail($id);
+            $area->delete();
+            return response()->json('Sucessfully deleted', 200);
         }catch (\Exception $e){
             return response()->json($e->getMessage());
 
         }
+
     }
+
 
 }

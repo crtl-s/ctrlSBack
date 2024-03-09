@@ -5,16 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Topic extends Model
+class Area extends Model
 {
     use HasFactory;
-
-    protected $fillable = ['name', 'area_id'];
-
-    public function area()
+    protected $fillable = ['name'];
+    public function topics()
     {
-        return $this->belongsTo(Area::class);
+        return $this->hasMany(Topic::class);
     }
-
-
 }

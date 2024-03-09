@@ -14,6 +14,8 @@ Route::post('/register', [RegisteredUserController::class, 'store'])
 Route::post('/login', [AuthenticatedSessionController::class, 'store'])
                 ->name('login');
 
+Route::get('/isAuth', [AuthenticatedSessionController::class, 'isAuth']);
+
 Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
                 ->middleware('guest')
                 ->name('password.email');
