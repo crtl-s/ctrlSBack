@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('lession_users', function (Blueprint $table) {
             $table->id();
+
+            $table->foreignId('lession_id');
+            $table->foreignId('user_id');
+            $table->foreignId('grade_id')->nullable();
+            $table->integer('score')->nullable();
+            $table->foreign('lession_id')->references('id')->on('lessions');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('grade_id')->references('id')->on('grades');
             $table->timestamps();
         });
     }

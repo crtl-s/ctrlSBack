@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('education_types', function (Blueprint $table) {
             $table->id();
+            $table->string('name')->required()->unique();
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }
