@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Area;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class AreaController extends Controller
 {
     //
   public function index(){
+      if (!Auth::user()){
+          return response()->json('Unauthorized', 401);}
         try{
             $areas = Area::all();
             return response()->json($areas, 200);
@@ -22,6 +25,9 @@ class AreaController extends Controller
 
     //STORE
     public function store(Request $request){
+        if (!Auth::user()) {
+            return response()->json('Unauthorized', 401);
+        }
         try
         {
             $validator = Validator::make($request->all(), [
@@ -45,6 +51,9 @@ class AreaController extends Controller
 
     //SHOW
     public function show($id){
+        if (!Auth::user()) {
+            return response()->json('Unauthorized', 401);
+        }
         try
         {
             $area = Area::findOrFail($id);
@@ -58,6 +67,9 @@ class AreaController extends Controller
 
     //UPDATE
     public function update(Request $request, $id){
+        if (!Auth::user()) {
+            return response()->json('Unauthorized', 401);
+        }
         try
         {
             $validator = Validator::make($request->all(), [
@@ -82,6 +94,9 @@ class AreaController extends Controller
 
     //DELETE
     public function destroy($id){
+        if (!Auth::user()) {
+            return response()->json('Unauthorized', 401);
+        }
         try
         {
             $area = Area::findOrFail($id);

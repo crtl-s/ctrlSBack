@@ -5,12 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\LearningTypeUser;
 use http\Client\Curl\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class LearningTypeUserController extends Controller
 {
     public function index()
     {
+        if (!Auth::user()) {
+            return response()->json('Unauthorized', 401);
+        }
         try {
             $learningTypeUsers = LearningTypeUser::with('learningType')->with('user')->get();
             return response()->json($learningTypeUsers, 200);
@@ -21,6 +25,9 @@ class LearningTypeUserController extends Controller
 
     public function store(Request $request)
     {
+        if (!Auth::user()) {
+            return response()->json('Unauthorized', 401);
+        }
         try {
             $validator = Validator::make($request->all(), [
                 'learning_type_id' => 'required|exists:learning_types,id',
@@ -42,6 +49,9 @@ class LearningTypeUserController extends Controller
 
     public function show($id)
     {
+        if (!Auth::user()) {
+            return response()->json('Unauthorized', 401);
+        }
         try {
             $learningTypeUser = LearningTypeUser::findOrFail($id);
             return response()->json($learningTypeUser);
@@ -52,6 +62,9 @@ class LearningTypeUserController extends Controller
 
     public function update(Request $request, $id)
     {
+        if (!Auth::user()) {
+            return response()->json('Unauthorized', 401);
+        }
         try {
             $validator = Validator::make($request->all(), [
                 'learning_type_id' => 'required|exists:learning_types,id',
@@ -74,6 +87,9 @@ class LearningTypeUserController extends Controller
 
     public function destroy($id)
     {
+        if (!Auth::user()) {
+            return response()->json('Unauthorized', 401);
+        }
         try {
             $learningTypeUser = LearningTypeUser::findOrFail($id);
             $learningTypeUser->delete();

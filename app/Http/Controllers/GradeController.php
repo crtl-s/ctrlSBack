@@ -4,12 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Grade;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class GradeController extends Controller
 {
     public function index()
     {
+        if (!Auth::user()) {
+            return response()->json('Unauthorized', 401);
+        }
         try {
             $grades = Grade::all();
             return response()->json($grades, 200);
@@ -20,6 +24,9 @@ class GradeController extends Controller
 
     public function store(Request $request)
     {
+        if (!Auth::user()) {
+            return response()->json('Unauthorized', 401);
+        }
         try {
             $validator = Validator::make($request->all(), [
                 'name' => 'required|unique:grades|max:255',
@@ -40,6 +47,9 @@ class GradeController extends Controller
 
     public function show($id)
     {
+        if (!Auth::user()) {
+            return response()->json('Unauthorized', 401);
+        }
         try {
             $grade = Grade::findOrFail($id);
             return response()->json($grade);
@@ -50,6 +60,9 @@ class GradeController extends Controller
 
     public function update(Request $request, $id)
     {
+        if (!Auth::user()) {
+            return response()->json('Unauthorized', 401);
+        }
         try {
             $validator = Validator::make($request->all(), [
                 'name' => 'required|unique:grades|max:255',
@@ -71,6 +84,9 @@ class GradeController extends Controller
 
     public function destroy($id)
     {
+        if (!Auth::user()) {
+            return response()->json('Unauthorized', 401);
+        }
         try {
             $grade = Grade::findOrFail($id);
             $grade->delete();

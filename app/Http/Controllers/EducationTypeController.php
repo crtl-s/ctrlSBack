@@ -4,12 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\EducationType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class EducationTypeController extends Controller
 {
     public function index()
     {
+        if(!Auth::user()){
+            return response()->json('Unauthorized', 401);
+        }
         try {
             $educationTypes = EducationType::all();
             return response()->json($educationTypes, 200);
@@ -20,6 +24,9 @@ class EducationTypeController extends Controller
 
     public function store(Request $request)
     {
+        if(!Auth::user()){
+            return response()->json('Unauthorized', 401);
+        }
         try {
             $validator = Validator::make($request->all(), [
                 'name' => 'required|unique:education_types|max:255',
@@ -40,6 +47,9 @@ class EducationTypeController extends Controller
 
     public function show($id)
     {
+        if(!Auth::user()){
+            return response()->json('Unauthorized', 401);
+        }
         try {
             $educationType = EducationType::findOrFail($id);
             return response()->json($educationType);
@@ -50,6 +60,9 @@ class EducationTypeController extends Controller
 
     public function update(Request $request, $id)
     {
+        if(!Auth::user()){
+            return response()->json('Unauthorized', 401);
+        }
         try {
             $validator = Validator::make($request->all(), [
                 'name' => 'required|unique:education_types|max:255',
@@ -71,6 +84,9 @@ class EducationTypeController extends Controller
 
     public function destroy($id)
     {
+        if (!Auth::user()) {
+            return response()->json('Unauthorized', 401);
+        }
         try {
             $educationType = EducationType::findOrFail($id);
             $educationType->delete();

@@ -31,13 +31,14 @@ class AuthenticatedSessionController extends Controller
     }
     public function isAuth(){
         try {
-            if (Auth::check()) {
+            return response()->json(Auth::user());
+            if (Auth::user()) {
                 return response()->json(['message' => 'Authenticated', 'user'=>Auth::user()], 200);
             }else{
-                return response()->json(['message' => 'Unauthenticated'], 401);
+                return response()->json(['message' => 'Not logged in'], 401);
             }
         }catch (\Exception $e) {
-            return response()->json(['error' => 'Unauthenticated'], 401);
+            return response()->json(['error' => $e], 401);
         }
     }
 
